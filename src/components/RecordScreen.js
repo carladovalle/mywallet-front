@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link, useNavigate} from "react-router-dom";
 
 import Share from "./../assets/images/Share.png";
 import More from "./../assets/images/more.png";
 import Less from "./../assets/images/less.png";
 
 export default function Entry () {
+
     return (
         <EntryScreen>
             <Title>
@@ -16,14 +18,18 @@ export default function Entry () {
                 <h2>Não há registros de entrada ou saída</h2>
             </Records>
             <Options>
-                <NewEntry>
-                    <img scr={More} />
-                    <h3>Nova entrada</h3>
-                </NewEntry>
-                <NewExit>
-                    <img src={Less} />
-                    <h3>Nova saída</h3>
-                </NewExit>
+                <Link to="/entry">
+                    <NewEntry>
+                            <img scr={More} />
+                            <h3>Nova entrada</h3>
+                    </NewEntry>
+                </Link>
+                <Link to="/exit">
+                    <NewExit>
+                            <img src={Less} />
+                            <h3>Nova saída</h3>
+                    </NewExit>
+                </Link>
             </Options>
         </EntryScreen>
     )

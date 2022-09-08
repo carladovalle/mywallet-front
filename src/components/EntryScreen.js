@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 export default function Entry () {
+
+    const [value, setValue] = useState("");
+    const [description, setDescription] = useState("");
+
+    const navigate = useNavigate();
+
+    function entry(event) {
+
+        event.preventDefault();
+
+        const body = {
+            value,
+            description
+        }
+
+        const promise = axios.post("http://localhost:3000/entrada", body); // falta arrumar API
+
+        promise
+        .then(response => {
+            console.log(response.data);
+            navigate("/record");
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <EntryScreen>
             <Title>Nova Entrada</Title>
-            <Input placeholder="Valor" />
-            <Input placeholder="Descrição" />
-            <Button>Salvar Entrada</Button>
+            <form onSubmit={entry}>
+                <Input type="text" placeholder="Valor" value={value} onChange={(e) => setValue(e.target.value)} required />
+                <Input type="text" placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} required />
+                <Button type="submit">Salvar Entrada</Button>
+            </form>
         </EntryScreen>
     )
 }
