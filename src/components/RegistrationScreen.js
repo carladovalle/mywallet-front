@@ -1,16 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { Link, useNavigate} from "react-router-dom";
 
 export default function Registration () {
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    function singUp(event) {
+
+        event.preventDefault();
+
+        const body = {
+            name,
+            email, 
+            password,
+            confirmPassword
+        }
+
+        const promise = axios.post("http://localhost:3000/cadastro", body); // falta arrumar API
+
+        promise
+        .then(response => {
+            console.log(response.data);
+            navigate("/");
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <RegistrationScreen>
             <Title>MyWallet</Title>
-            <Input placeholder="Nome" />
-            <Input placeholder="E-mail" />
-            <Input placeholder="Senha" />
-            <Input placeholder="Confirme a sua senha" />
-            <Button>Cadastrar</Button>
-            <GoToLogin>Já tem uma conta? Entre agora!</GoToLogin>
+            <form onSubmit={singUp}>
+                <Input type="text" placeholder="Nome" value={name} onChange={(e) => setName(e.target.value)} required />
+                <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <Input type="password" placeholder="Confirme a sua senha" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                <Button type="submit">Cadastrar</Button>
+            </form>
+            <GoToLogin>
+                <Link to="/">
+                    Já tem uma conta? Entre agora!
+                </Link>
+            </GoToLogin>
         </RegistrationScreen>
     )
 }
@@ -38,6 +77,7 @@ const Input = styled.input`
     height: 58px;
     border-radius: 5px;
     margin-bottom: 13px;
+    margin-left: 20px;
 
     &::placeholder {
         color: #000000;
@@ -57,6 +97,7 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     border: 1px solid #A328D6;
+    margin-left: 25px;
 
     &:hover {
         cursor: pointer;
