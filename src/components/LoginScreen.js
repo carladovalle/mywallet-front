@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { Link, useNavigate} from "react-router-dom";
 
 export default function Login () {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    function login(event) {
+
+        event.preventDefault();
+
+        const body = {
+            email, 
+            password
+        }
+
+        const promise = axios.post("http://localhost:3000/login", body); // falta arrumar API
+
+        promise
+        .then(response => {
+            console.log(response.data);
+            navigate("/record");
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
     return (
         <LoginScreen>
             <Title>MyWallet</Title>
-            <Input placeholder="E-mail" />
-            <Input placeholder="Senha" />
-            <Button>Entrar</Button>
-            <GoToRegistration>Primeira vez? Cadastre-se!</GoToRegistration>
+            <form onSubmit={login}>
+                <Input type="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <Button type="submit">Entrar</Button>
+            </form>
+            <GoToRegistration>
+                <Link to="/registration">
+                    Primeira vez? Cadastre-se!
+                </Link>
+            </GoToRegistration>
         </LoginScreen>
     )
 }
@@ -36,6 +71,7 @@ const Input = styled.input`
     height: 58px;
     border-radius: 5px;
     margin-bottom: 13px;
+    margin-left: 20px;
 
     &::placeholder {
         color: #000000;
@@ -55,6 +91,7 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     border: 1px solid #A328D6;
+    margin-left: 25px;
 
     &:hover {
         cursor: pointer;
