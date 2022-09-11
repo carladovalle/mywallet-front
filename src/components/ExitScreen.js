@@ -19,7 +19,7 @@ export default function Exit () {
             description
         }
 
-        const promise = axios.post("http://localhost:3000/saida", body); // falta arrumar API
+        const promise = axios.post("http://localhost:5000/exit", body); 
 
         promise
         .then(response => {

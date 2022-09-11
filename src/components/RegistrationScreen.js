@@ -23,7 +23,7 @@ export default function Registration () {
             confirmPassword
         }
 
-        const promise = axios.post("http://localhost:3000/cadastro", body); // falta arrumar API
+        const promise = axios.post("http://localhost:5000/sign-up", body); // falta arrumar API
 
         promise
         .then(response => {

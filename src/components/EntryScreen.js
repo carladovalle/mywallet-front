@@ -19,7 +19,7 @@ export default function Entry () {
             description
         }
 
-        const promise = axios.post("http://localhost:3000/entrada", body); // falta arrumar API
+        const promise = axios.post("http://localhost:5000/entry", body); 
 
         promise
         .then(response => {

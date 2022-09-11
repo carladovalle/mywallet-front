@@ -19,7 +19,7 @@ export default function Login () {
             password
         }
 
-        const promise = axios.post("http://localhost:3000/login", body); // falta arrumar API
+        const promise = axios.post("http://localhost:5000/sign-in", body); 
 
         promise
         .then(response => {
