@@ -23,12 +23,12 @@ export default function Registration () {
             confirmPassword
         }
 
-        const promise = axios.post("http://localhost:5000/sign-up", body); // falta arrumar API
+        const promise = axios.post("http://localhost:5000/sign-up", body); 
 
         promise
         .then(response => {
             console.log(response.data);
-            navigate("/");
+            navigate("/sign-in");
         })
         .catch(err => {
             console.log(err);
@@ -46,7 +46,7 @@ export default function Registration () {
                 <Button type="submit">Cadastrar</Button>
             </form>
             <GoToLogin>
-                <Link to="/">
+                <Link to="/sign-up">
                     Já tem uma conta? Entre agora!
                 </Link>
             </GoToLogin>

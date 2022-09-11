@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useNavigate} from "react-router-dom";
+
+import TokenContext from "../contexts/TokenContext";
 
 export default function Login () {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { token, setToken } = useContext(TokenContext);
 
     const navigate = useNavigate();
 
@@ -23,6 +27,7 @@ export default function Login () {
 
         promise
         .then(response => {
+            setToken(response.data);
             console.log(response.data);
             navigate("/record");
         })
@@ -40,7 +45,7 @@ export default function Login () {
                 <Button type="submit">Entrar</Button>
             </form>
             <GoToRegistration>
-                <Link to="/registration">
+                <Link to="/sign-up">
                     Primeira vez? Cadastre-se!
                 </Link>
             </GoToRegistration>

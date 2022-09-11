@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import TokenContext from "../contexts/TokenContext";
+
 export default function Entry () {
+
+    const { token } = useContext(TokenContext);
 
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
@@ -14,16 +18,21 @@ export default function Entry () {
 
         event.preventDefault();
 
+        const config = { 
+            headers: {Authorization: `Bearer ${token}`}
+        }
+
         const body = {
             value,
             description
         }
 
-        const promise = axios.post("http://localhost:5000/entry", body); 
+        const promise = axios.post("http://localhost:5000/entry", body, config); 
 
         promise
         .then(response => {
             console.log(response.data);
+            console.log(response.data.token);
             navigate("/record");
         })
         .catch(err => {

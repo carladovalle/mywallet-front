@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import TokenContext from "../contexts/TokenContext";
 
 import Share from "./../assets/images/Share.png";
 import More from "./../assets/images/more.png";
 import Less from "./../assets/images/less.png";
 
 export default function Entry () {
+
+    const { token } = useContext(TokenContext);
 
     return (
         <EntryScreen>

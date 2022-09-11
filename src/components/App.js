@@ -7,17 +7,23 @@ import EntryScreen from './EntryScreen';
 import ExitScreen from './ExitScreen';
 import RecordScreen from './RecordScreen';
 
+import TokenContext from "../contexts/TokenContext";
 
 export default function App () {
+
+    const [token, setToken] = React.useState("");
+
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LoginScreen />} />
-                <Route path="/registration" element={<RegistrationScreen />} />
-                <Route path="/entry" element={<EntryScreen />} />
-                <Route path="/exit" element={<ExitScreen />} />
-                <Route path="/record" element={<RecordScreen />} />
-            </Routes>
-        </BrowserRouter>
+        <TokenContext.Provider value={{token, setToken}}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/sign-in" element={<LoginScreen />} />
+                    <Route path="/sign-up" element={<RegistrationScreen />} />
+                    <Route path="/entry" element={<EntryScreen token={token} />} />
+                    <Route path="/exit" element={<ExitScreen token={token} />} />
+                    <Route path="/record" element={<RecordScreen token={token} />} />
+                </Routes>
+            </BrowserRouter>
+        </TokenContext.Provider>
     )
 }
