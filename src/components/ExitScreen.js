@@ -1,39 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-export default function Exit () {
+import UserContext from '../contexts/UserContext';
+
+export default function Exit() {
 
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
 
     const navigate = useNavigate();
 
-    function exit(event) {
+    const { user } = useContext(UserContext);
+
+    async function exit(event) {
 
         event.preventDefault();
 
-        const body = {
-            value,
-            description
+        const config = { 
+            headers: {Authorization: `Bearer ${user.token}`}
         }
 
-        const promise = axios.post("http://localhost:5000/exit", body); 
+        const body = {
+            value: parseFloat(value),
+            description,
+            type: "saida"
+        }
 
-        promise
-        .then(response => {
-            console.log(response.data);
+        try {
+
+            await axios.post("http://localhost:5000/transactions", body, config); 
+            console.log("Sucesso");
             navigate("/record");
-        })
-        .catch(err => {
-            console.log(err);
-        })
+
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     return (
         <ExitScreen>
-            <Title>Nova Saída</Title>
+            <Title>Nova Entrada</Title>
             <form onSubmit={exit}>
                 <Input type="text" placeholder="Valor" value={value} onChange={(e) => setValue(e.target.value)} required />
                 <Input type="text" placeholder="Descrição" value={description} onChange={(e) => setDescription(e.target.value)} required />

@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { Link, useNavigate} from "react-router-dom";
 
-import TokenContext from "../contexts/TokenContext";
+import UserContext from '../contexts/UserContext';
 
 export default function Login () {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { token, setToken } = useContext(TokenContext);
+    const { setUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
-    function login(event) {
+    async function login(event) {
 
         event.preventDefault();
 
@@ -23,17 +23,15 @@ export default function Login () {
             password
         }
 
-        const promise = axios.post("http://localhost:5000/sign-in", body); 
+        try {
 
-        promise
-        .then(response => {
-            setToken(response.data);
-            console.log(response.data);
+            const { data } = await axios.post("http://localhost:5000/sign-in", body);
+            setUser(data);
             navigate("/record");
-        })
-        .catch(err => {
-            console.log(err);
-        })
+
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     return (

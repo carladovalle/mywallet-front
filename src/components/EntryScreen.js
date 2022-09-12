@@ -3,41 +3,40 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import TokenContext from "../contexts/TokenContext";
+import UserContext from '../contexts/UserContext';
 
 export default function Entry () {
-
-    const { token } = useContext(TokenContext);
 
     const [value, setValue] = useState("");
     const [description, setDescription] = useState("");
 
     const navigate = useNavigate();
 
-    function entry(event) {
+    const { user } = useContext(UserContext);
+
+    async function entry(event) {
 
         event.preventDefault();
 
         const config = { 
-            headers: {Authorization: `Bearer ${token}`}
+            headers: {Authorization: `Bearer ${user.token}`}
         }
 
         const body = {
-            value,
-            description
+            value: parseFloat(value),
+            description,
+            type: "entrada"
         }
 
-        const promise = axios.post("http://localhost:5000/entry", body, config); 
+        try {
 
-        promise
-        .then(response => {
-            console.log(response.data);
-            console.log(response.data.token);
+            await axios.post("http://localhost:5000/transactions", body, config); 
+            console.log("Sucesso");
             navigate("/record");
-        })
-        .catch(err => {
-            console.log(err);
-        })
+
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     return (

@@ -12,7 +12,7 @@ export default function Registration () {
 
     const navigate = useNavigate();
 
-    function singUp(event) {
+    async function singUp(event) {
 
         event.preventDefault();
 
@@ -23,16 +23,15 @@ export default function Registration () {
             confirmPassword
         }
 
-        const promise = axios.post("http://localhost:5000/sign-up", body); 
+        try {
 
-        promise
-        .then(response => {
-            console.log(response.data);
-            navigate("/sign-in");
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            await axios.post("http://localhost:5000/sign-up", body);
+
+            navigate("/");
+
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -46,7 +45,7 @@ export default function Registration () {
                 <Button type="submit">Cadastrar</Button>
             </form>
             <GoToLogin>
-                <Link to="/sign-up">
+                <Link to="/">
                     Já tem uma conta? Entre agora!
                 </Link>
             </GoToLogin>
